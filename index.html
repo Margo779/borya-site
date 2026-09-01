@@ -3,272 +3,222 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Боря гадает — Потомок великих прорицателей</title>
+  <title>Боря гадает</title>
   <style>
-    :root {
-      --primary: #d4af37;
-      --primary-hover: #b89728;
-      --bg-dark: #121214;
-      --card-bg: #1e1e24;
-      --text-main: #f4f4f6;
-      --text-muted: #a0a0ab;
-      --accent-green: #2ecc71;
-      --accent-green-hover: #27ae60;
-    }
-
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: var(--bg-dark);
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    header {
-      width: 100%;
-      background: rgba(30, 30, 36, 0.85);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      padding: 15px 0;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary);
-      text-align: center;
-      letter-spacing: 1px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 650px;
-      margin: 30px 15px;
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-sizing: border-box;
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-      color: var(--text-main);
-    }
-
-    p.subtitle {
-      color: var(--text-muted);
-      font-size: 15px;
-      margin-bottom: 25px;
-      line-height: 1.5;
-    }
-
-    textarea {
-      width: 100%;
-      height: 90px;
-      padding: 14px;
-      background: #141417;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--text-main);
-      border-radius: 10px;
-      resize: none;
-      box-sizing: border-box;
-      font-size: 15px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    textarea:focus {
-      border-color: var(--primary);
-    }
-
-    .char-info {
-      text-align: right;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin: 6px 0 20px 0;
-    }
-
-    .btn {
-      width: 100%;
-      border: none;
-      padding: 14px 20px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-bottom: 12px;
-      transition: all 0.2s ease;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-gold {
-      background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
-      color: #121214;
-    }
-
-    .btn-gold:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
-
-    .btn-green {
-      background: var(--accent-green);
-      color: #fff;
-    }
-
-    .btn-green:hover {
-      background: var(--accent-green-hover);
-      transform: translateY(-1px);
-    }
-
-    .fortune-box {
-      margin-top: 30px;
-      padding: 20px;
-      background: rgba(212, 175, 55, 0.05);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      border-radius: 12px;
-      text-align: left;
-    }
-
-    .fortune-box h3 {
-      margin-top: 0;
-      color: var(--primary);
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    #fortune-text {
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--text-main);
-      margin: 0;
-    }
-
-    /* Модальное окно */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal.active {
-      display: flex;
-    }
-    .modal-content {
-      background: var(--card-bg);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-    }
-    .modal-content h3 {
-      color: var(--primary);
-      margin-top: 0;
-    }
-    .prices {
-      margin: 15px 0 25px 0;
-      font-size: 15px;
-      color: var(--text-muted);
-      background: rgba(0,0,0,0.2);
-      padding: 10px;
-      border-radius: 8px;
-    }
-    .prices span {
-      color: var(--text-main);
-      font-weight: bold;
-    }
-    .btn-close {
-      background: transparent;
-      color: var(--text-muted);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .btn-close:hover {
-      background: rgba(255,255,255,0.05);
-      color: var(--text-main);
-    }
+    /* Стили вашего сайта */
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f9f9f9; color: #333; }
+    header { background: #ffcc00; padding: 15px; font-size: 24px; font-weight: bold; text-align: center; }
+    .container { max-width: 600px; margin: 30px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; resize: none; box-sizing: border-box; margin-bottom: 15px; }
+    button { background: #ff6600; color: #fff; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin: 5px 0; width: 100%; }
+    button:hover { background: #e55b00; }
+    #free-btn { background: #28a745; }
+    #free-btn:hover { background: #218838; }
+    .fortune-box { margin-top: 20px; padding: 15px; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 5px; font-size: 18px; text-align: center; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal.active { display: flex; }
+    .modal-content { background: #fff; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; text-align: center; }
+    .review-card { background: #f1f1f1; padding: 10px; border-radius: 5px; margin-top: 10px; text-align: left; }
   </style>
 </head>
 <body>
 
-  <header>🦜 Боря гадает</header>
+  <header data-i18n="logoTitle">Боря гадает</header>
 
   <div class="container">
-    <h1>Узнайте свою судьбу</h1>
-    <p class="subtitle">Задайте сокровенный вопрос, и мудрый волнистый предсказатель вытащит ваш индивидуальный свиток.</p>
+    <div>
+      <button onclick="switchLang('ru')" id="btn-ru" style="width:auto; display:inline-block; padding:5px 10px;">RU</button>
+      <button onclick="switchLang('en')" id="btn-en" style="width:auto; display:inline-block; padding:5px 10px;">EN</button>
+    </div>
 
-    <textarea id="question" placeholder="Напишите ваш вопрос здесь..."></textarea>
-    <div class="char-info">Символов: <span id="char-count">0</span></div>
+    <h1 data-i18n="heroTitle">Боря гадает</h1>
+    <p data-i18n="heroSub">Задайте вопрос, и волнистый предсказатель вытащит ваш индивидуальный свиток.</p>
 
-    <button class="btn btn-gold" onclick="openPaymentModal('question', 100)">
-      ✨ Гадание на вопрос — 100 ₽ / $1.2
-    </button>
-    <button class="btn btn-gold" onclick="openPaymentModal('rent', 500)">
-      👑 Аренда Бори на неделю — 500 ₽ / $6
-    </button>
-    <button class="btn btn-green" id="free-btn">
-      🎁 Бесплатный свиток дня
-    </button>
+    <textarea id="question" data-i18n-ph="inputPlaceholder" placeholder="Напишите ваш вопрос здесь..."></textarea>
+    <div>Символов: <span id="char-count">0</span></div>
+
+    <button onclick="openPaymentModal('question', 100)" data-i18n="btnPayQuestion">Гадание на вопрос — 100 ₽ / $1.2 ✨</button>
+    <button onclick="openPaymentModal('rent', 500)" data-i18n="btnPayRent">Аренда Бори на неделю — 500 ₽ / $6 👑</button>
+    <button id="free-btn" data-i18n="btnFree">Бесплатный свиток дня 🎁</button>
 
     <div id="fortune" class="fortune-box">
-      <h3>📜 Предсказание Бори</h3>
-      <p id="fortune-text">Нажмите кнопку гадания выше, чтобы Боря вытащил ответ...</p>
+      <h3 data-i18n="fortuneTitle">Предсказание Бори</h3>
+      <p id="fortune-text"><span data-i18n="fortuneDefault">Нажмите кнопку гадания, чтобы Боря вытащил ответ...</span></p>
     </div>
+
+    <div id="mediaBox" style="margin-top: 15px; text-align:center;">
+      <video id="boryaVideo" width="100%" style="display:none;" src=""></video>
+    </div>
+
+    <h2 data-i18n="reviewsTitle" style="margin-top:40px;">Отзывы счастливчиков</h2>
+    <div id="reviewsContainer"></div>
+
+    <h3 data-i18n="addReviewTitle" style="margin-top:30px;">Оставить свой отзыв</h3>
+    <form id="reviewForm" style="text-align:left;">
+      <label data-i18n="lblReviewName">Ваше имя:</label>
+      <input type="text" id="revName" data-i18n-ph="phReviewName" placeholder="Например: Анна М." style="width:100%; padding:8px; margin:5px 0 10px 0; box-sizing:border-box;">
+      
+      <label data-i18n="lblReviewStars">Оценка:</label>
+      <select id="revStars" style="width:100%; padding:8px; margin:5px 0 10px 0;">
+        <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
+        <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+        <option value="⭐⭐⭐">⭐⭐⭐</option>
+      </select>
+
+      <label data-i18n="lblReviewText">Ваш отзыв:</label>
+      <textarea id="revText" data-i18n-ph="phReviewText" placeholder="Поделитесь своими впечатлениями..." style="height:60px;"></textarea>
+
+      <button type="submit" data-i18n="btnSubmitReview">Отправить отзыв</button>
+    </form>
   </div>
 
   <!-- Модальное окно оплаты -->
   <div id="payModal" class="modal">
     <div class="modal-content">
-      <h3>Выберите способ оплаты</h3>
-      <div class="prices">
-        <div>Сумма: <span id="rubVal">100 ₽</span></div>
-        <div>В валюте: <span id="usdVal">$1.20</span> / <span id="gelVal">~3.10 GEL</span></div>
-      </div>
+      <h3 data-i18n="modalTitle">Выберите способ оплаты</h3>
+      <p data-i18n="modalSub" style="font-size: 13px; color: #666;">Зачисление производится на карту TBC Bank (Грузия) в GEL.</p>
       
-      <button class="btn btn-gold" onclick="processPayment('tg_bot')">✈️ Оплатить через Telegram Bot</button>
-      <button class="btn btn-green" onclick="processPayment('card_gel')">💳 Международная карта (USD / GEL)</button>
-      <button class="btn btn-close" onclick="closePaymentModal()">Отмена</button>
+      <p><strong data-i18n="rateRub">Сумма в рублях:</strong> <span id="rubVal">100 ₽</span></p>
+      <p><strong data-i18n="rateUsd">Сумма в долларах:</strong> <span id="usdVal">$1.20</span></p>
+      <p><strong data-i18n="rateGel">К зачислению (TBC GEL):</strong> <span id="gelVal">~3.10 GEL</span></p>
+      
+      <button onclick="processPayment('tg_bot')" data-i18n="payTgBot">✈️ Оплатить через Telegram Bot</button>
+      <button onclick="processPayment('card_gel')" data-i18n="payCardGel">💳 Международная карта (USD / GEL)</button>
+      <button onclick="closePaymentModal()" data-i18n="btnClose" style="background:#6c757d;">Отмена</button>
     </div>
   </div>
 
   <script[cite: 2]>
     let currentLang = 'ru';
+
+    const translations = {
+      ru: {
+        logoTitle: "Боря гадает",
+        navFortune: "Гадание",
+        navReviews: "Отзывы",
+        navAbout: "О Боре",
+        navContacts: "Контакты",
+        heroTitle: "Боря гадает",
+        heroSub: "Задайте вопрос, и волнистый предсказатель вытащит ваш индивидуальный свиток.",
+        inputPlaceholder: "Напишите ваш вопрос здесь...",
+        btnPayQuestion: "Гадание на вопрос — 100 ₽ / $1.2 ✨",
+        btnPayRent: "Аренда Бори на неделю — 500 ₽ / $6 👑",
+        btnFree: "Бесплатный свиток дня 🎁",
+        fortuneTitle: "Предсказание Бори",
+        fortuneDefault: "Нажмите кнопку гадания, чтобы Боря вытащил ответ...",
+        reviewsTitle: "Отзывы счастливчиков",
+        addReviewTitle: "Оставить свой отзыв",
+        lblReviewName: "Ваше имя:",
+        phReviewName: "Например: Анна М.",
+        lblReviewStars: "Оценка:",
+        lblReviewText: "Ваш отзыв:",
+        phReviewText: "Поделитесь своими впечатлениями...",
+        btnSubmitReview: "Отправить отзыв",
+        aboutTitle: "О попугайчике Боре",
+        contactsTitle: "Связаться с нами",
+        modalTitle: "Выберите способ оплаты",
+        modalSub: "Зачисление производится на карту TBC Bank (Грузия) в GEL.",
+        rateRub: "Сумма в рублях:",
+        rateUsd: "Сумма в долларах:",
+        rateGel: "К зачислению (TBC GEL):",
+        payCardGel: "💳 Международная карта (USD / GEL)",
+        payCardRub: "🇷🇺 Карта РФ / СБП (Рубли)",
+        payTgBot: "✈️ Оплатить через Telegram Bot",
+        btnClose: "Отмена"
+      },
+      en: {
+        logoTitle: "Borya Divines",
+        navFortune: "Fortune",
+        navReviews: "Reviews",
+        navAbout: "About Borya",
+        navContacts: "Contacts",
+        heroTitle: "Borya Divines",
+        heroSub: "Ask your question, and the wise budgie will draw your unique scroll.",
+        inputPlaceholder: "Type your personal question here...",
+        btnPayQuestion: "Ask a Question — 100 ₽ / $1.2 ✨",
+        btnPayRent: "Rent Borya for a week — 500 ₽ / $6 👑",
+        btnFree: "Free Daily Scroll 🎁",
+        fortuneTitle: "Borya's Prediction",
+        fortuneDefault: "Click a button above to let Borya pick your scroll...",
+        reviewsTitle: "Happy Clients Reviews",
+        addReviewTitle: "Leave Your Review",
+        lblReviewName: "Your Name:",
+        phReviewName: "E.g., Ann M.",
+        lblReviewStars: "Rating:",
+        lblReviewText: "Your Review:",
+        phReviewText: "Share your experience...",
+        btnSubmitReview: "Submit Review",
+        aboutTitle: "About Borya the Budgie",
+        contactsTitle: "Contact Us",
+        modalTitle: "Choose Payment Method",
+        modalSub: "Payment is processed via TBC Bank (Georgia) in GEL.",
+        rateRub: "Amount in RUB:",
+        rateUsd: "Amount in USD:",
+        rateGel: "Total (TBC GEL):",
+        payCardGel: "💳 International Card (USD / GEL)",
+        payCardRub: "🇷🇺 Russian Card / SBP",
+        payTgBot: "✈️ Pay via Telegram Bot",
+        btnClose: "Cancel"
+      }
+    };
+
+    const fortunesData = {
+      ru: [
+        "Сегодня идеальный день, чтобы сделать первый шаг к вашей давней мечте!",
+        "Обратите внимание на знаки вокруг: Вселенная готовит вам приятный сюрприз.",
+        "Не бойтесь задержек — всё складывается именно так, как должно.",
+        "Вас ждет неожиданная, но очень теплая встреча или сообщение.",
+        "Доверьтесь интуиции: сегодня она станет вашим лучшим проводником.",
+        "Скоро откроется дверь, которую вы считали навсегда закрытой.",
+        "Удача любит смелых: сделайте шаг вперед, даже если немного страшно!",
+        "Ваш труд скоро принесет плоды, о которых вы даже не мечтали.",
+        "Отпустите сомнения: вы на верном пути!",
+        "Финансовый поток готовит для вас приятное прибавление."
+      ],
+      en: [
+        "Today is the perfect day to take the first step towards your dream!",
+        "Pay attention to signs around: the Universe has a surprise for you.",
+        "Don't fear delays — everything is unfolding just as it should.",
+        "An unexpected but very warm message or meeting awaits you.",
+        "Trust your intuition: today it will be your best guide.",
+        "A door you thought was closed forever will open soon.",
+        "Fortune favors the bold: step forward even if it's a bit scary!",
+        "Your hard work will soon bear fruits beyond your expectations.",
+        "Let go of doubts: you are on the right path!",
+        "A financial flow is preparing a pleasant boost for you."
+      ]
+    };
+
+    function switchLang(lang) {
+      currentLang = lang;
+      document.getElementById('btn-ru').style.opacity = (lang === 'ru' ? '1' : '0.5');
+      document.getElementById('btn-en').style.opacity = (lang === 'en' ? '1' : '0.5');
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (translations[lang][key]) {
+          el.placeholder = translations[lang][key];
+        }
+      });
+    }
+
+    const RUB_GEL = 0.031;
     let currentType = '';
     let currentRubBase = 100;
-    const RUB_GEL = 0.031;
 
-    const fortunesData = [
-      "Сегодня идеальный день, чтобы сделать первый шаг к вашей давней мечте!",
-      "Обратите внимание на знаки вокруг: Вселенная готовит вам приятный сюрприз.",
-      "Не бойтесь задержек — всё складывается именно так, как должно.",
-      "Вас ждет неожиданная, но очень теплая встреча или сообщение.",
-      "Доверьтесь интуиции: сегодня она станет вашим лучшим проводником.",
-      "Скоро откроется дверь, которую вы считали навсегда закрытой.",
-      "Удача любит смелых: сделайте шаг вперед, даже если немного страшно!",
-      "Ваш труд скоро принесет плоды, о которых вы даже не мечтали."
-    ];
+    const video = document.getElementById('boryaVideo');
+    const mediaBox = document.getElementById('mediaBox');
 
     function openPaymentModal(type, baseRub) {
       if (type === 'question' && !document.getElementById('question').value.trim()) {
-        alert('Пожалуйста, сначала введите ваш вопрос!');
+        alert(currentLang === 'ru' ? 'Пожалуйста, сначала введите ваш вопрос!' : 'Please enter your question first!');
         return;
       }
       currentType = type;
@@ -296,20 +246,20 @@
         return;
       }
 
-      if (provider === 'card_gel') {
-        alert('Имитация успешной оплаты');
+      if (provider === 'card_gel' || provider === 'card_rub') {
+        alert(currentLang === 'ru' ? 'Имитация успешной оплаты' : 'Simulating successful payment');
         simulateSuccessfulPayment();
       }
     }
 
     function simulateSuccessfulPayment() {
       const q = document.getElementById('question').value.trim();
-      const randomFortune = fortunesData[Math.floor(Math.random() * fortunesData.length)];
+      const randomFortune = getRandomFortune();
       const prefix = currentType === 'rent' 
-        ? '👑 Активирована аренда Бори на неделю!\n\n' 
-        : `✨ Ответ на ваш вопрос: "${q}"\n\n`;
+        ? (currentLang === 'ru' ? '👑 Активирована аренда Бори на неделю!\n\n' : '👑 Borya rental activated!\n\n')
+        : (currentLang === 'ru' ? `✨ Ответ на ваш вопрос: "${q}"\n\n` : `✨ Answer to your question: "${q}"\n\n`);
       
-      showScrollResult(prefix + randomFortune);
+      startBoryaDivination(prefix + randomFortune);
     }
 
     document.getElementById('free-btn').addEventListener('click', () => {
@@ -317,22 +267,64 @@
       const today = new Date().toDateString();
 
       if (lastFreeDate === today) {
-        alert('Вы уже получали бесплатный свиток сегодня! Приходите завтра за новым предсказанием 🦜');
+        alert(currentLang === 'ru' 
+          ? 'Вы уже получали бесплатный свиток сегодня! Приходите завтра за новым предсказанием 🦜 или воспользуйтесь платным гаданием.' 
+          : 'You have already received your free scroll today! Come back tomorrow for a new prediction 🦜.');
         return;
       }
 
       localStorage.setItem('borya_last_free_date', today);
-      const randomFortune = fortunesData[Math.floor(Math.random() * fortunesData.length)];
-      showScrollResult(`🎁 Свиток Дня\n\n${randomFortune}`);
+
+      const randomFortune = getRandomFortune();
+      startBoryaDivination(`🎁 [${currentLang === 'ru' ? 'Свиток Дня' : 'Daily Scroll'}]\n\n${randomFortune}`);
     });
 
+    function getRandomFortune() {
+      const arr = fortunesData[currentLang];
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function startBoryaDivination(text) {
+      mediaBox.classList.add('playing');
+      video.currentTime = 0;
+      
+      video.play().catch(() => showScrollResult(text));
+      video.onended = () => {
+        mediaBox.classList.remove('playing');
+        showScrollResult(text);
+      };
+    }
+
     function showScrollResult(text) {
-      document.getElementById('fortune-text').innerHTML = text.replace(/\n/g, '<br>');
+      document.getElementById('fortune-text').innerHTML = `<span>${text.replace(/\n/g, '<br>')}</span>`;
       document.getElementById('fortune').scrollIntoView({ behavior: 'smooth' });
     }
 
     document.getElementById('question').addEventListener('input', (e) => {
       document.getElementById('char-count').textContent = e.target.value.length;
+    });
+
+    document.getElementById('reviewForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('revName').value.trim();
+      const stars = document.getElementById('revStars').value;
+      const text = document.getElementById('revText').value.trim();
+
+      if (!name || !text) return;
+
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.innerHTML = `
+        <div class="review-stars">${stars}</div>
+        <p>«${text}»</p>
+        <div class="review-name" style="font-weight:bold; margin-top:5px;">— ${name}</div>
+      `;
+
+      const container = document.getElementById('reviewsContainer');
+      container.insertBefore(card, container.firstChild);
+
+      document.getElementById('reviewForm').reset();
+      alert(currentLang === 'ru' ? 'Спасибо! Ваш отзыв опубликован.' : 'Thank you! Your review has been published.');
     });
   </script>
 </body>
