@@ -165,10 +165,6 @@
     const translations = {
       ru: {
         logoTitle: "Боря гадает",
-        navFortune: "Гадание",
-        navReviews: "Отзывы",
-        navAbout: "О Боре",
-        navContacts: "Контакты",
         heroTitle: "Боря гадает",
         heroSub: "Задайте вопрос, и волнистый предсказатель вытащит ваш индивидуальный свиток.",
         inputPlaceholder: "Напишите ваш вопрос здесь...",
@@ -185,24 +181,17 @@
         lblReviewText: "Ваш отзыв:",
         phReviewText: "Поделитесь своими впечатлениями...",
         btnSubmitReview: "Отправить отзыв",
-        aboutTitle: "О попугайчике Боре",
-        contactsTitle: "Связаться с нами",
         modalTitle: "Выберите способ оплаты",
         modalSub: "Зачисление производится на карту TBC Bank (Грузия) в GEL.",
         rateRub: "Сумма в рублях:",
         rateUsd: "Сумма в долларах:",
         rateGel: "К зачислению (TBC GEL):",
         payCardGel: "💳 Международная карта (USD / GEL)",
-        payCardRub: "🇷🇺 Карта РФ / СБП (Рубли)",
         payTgBot: "✈️ Оплатить через Telegram Bot",
         btnClose: "Отмена"
       },
       en: {
         logoTitle: "Borya Divines",
-        navFortune: "Fortune",
-        navReviews: "Reviews",
-        navAbout: "About Borya",
-        navContacts: "Contacts",
         heroTitle: "Borya Divines",
         heroSub: "Ask your question, and the wise budgie will draw your unique scroll.",
         inputPlaceholder: "Type your personal question here...",
@@ -219,15 +208,12 @@
         lblReviewText: "Your Review:",
         phReviewText: "Share your experience...",
         btnSubmitReview: "Submit Review",
-        aboutTitle: "About Borya the Budgie",
-        contactsTitle: "Contact Us",
         modalTitle: "Choose Payment Method",
         modalSub: "Payment is processed via TBC Bank (Georgia) in GEL.",
         rateRub: "Amount in RUB:",
         rateUsd: "Amount in USD:",
         rateGel: "Total (TBC GEL):",
         payCardGel: "💳 International Card (USD / GEL)",
-        payCardRub: "🇷🇺 Russian Card / SBP",
         payTgBot: "✈️ Pay via Telegram Bot",
         btnClose: "Cancel"
       }
@@ -317,7 +303,7 @@
         return;
       }
 
-      if (provider === 'card_gel' || provider === 'card_rub') {
+      if (provider === 'card_gel') {
         alert(currentLang === 'ru' ? 'Имитация успешной оплаты' : 'Simulating successful payment');
         simulateSuccessfulPayment();
       }
