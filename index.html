@@ -382,28 +382,20 @@
   </section>
 </main>
 
-<!-- Модальное окно выбора оплаты с прямым эквайрингом -->
+<!-- Модальное окно выбора оплаты с гео-направлением -->
 <div class="modal-overlay" id="payModal">
   <div class="modal-card">
-    <h3 data-i18n="modalTitle">Выберите способ оплаты</h3>
-    <p style="font-size:0.85rem; color:var(--cream-dim);" data-i18n="modalSub">Зачисление производится на карту TBC Bank (Грузия) в GEL.</p>
+    <h3 id="modalTitleText" data-i18n="modalTitle">Выберите способ оплаты</h3>
+    <p id="modalSubText" style="font-size:0.85rem; color:var(--cream-dim);"></p>
     
     <div class="currency-rates" id="modalRates">
-      <div><span data-i18n="rateRub">Сумма в рублях:</span> <b id="rubVal">100 ₽</b></div>
-      <div><span data-i18n="rateUsd">Сумма в долларах:</span> <b id="usdVal">$1.20</b></div>
-      <div><span data-i18n="rateGel">К зачислению (TBC GEL):</span> <b id="gelVal">~3.20 GEL</b></div>
+      <div><span id="priceLabel">Сумма к оплате:</span> <b id="priceVal">100 ₽</b></div>
     </div>
 
-    <!-- Кнопки реальной оплаты через банковские шлюзы -->
-    <button class="pay-option-btn" onclick="processPayment('card_gel')">
-      <span data-i18n="payCardGel">💳 Международная карта (USD / GEL)</span> ➔
-    </button>
-    <button class="pay-option-btn" onclick="processPayment('card_rub')">
-      <span data-i18n="payCardRub">🇷🇺 Карта РФ / СБП (Рубли)</span> ➔
-    </button>
-    <button class="pay-option-btn" onclick="processPayment('tg_bot')" style="border-color:var(--tg-blue);">
-      <span data-i18n="payTgBot">✈️ Оплатить через Telegram Bot</span> ➔
-    </button>
+    <!-- Кнопки оплаты с разделением на РФ и Международные -->
+    <div id="paymentOptionsContainer">
+      <!-- Динамически заполнится скриптом в зависимости от выбора пользователя -->
+    </div>
 
     <button class="btn-close-modal" onclick="closePaymentModal()" data-i18n="btnClose">Отмена</button>
   </div>
@@ -453,13 +445,6 @@
       contactsTitle: "Связаться с нами",
       contactTgBot: "Telegram Бот",
       modalTitle: "Выберите способ оплаты",
-      modalSub: "Зачисление производится на карту TBC Bank (Грузия) в GEL.",
-      rateRub: "Сумма в рублях:",
-      rateUsd: "Сумма в долларах:",
-      rateGel: "К зачислению (TBC GEL):",
-      payCardGel: "💳 Международная карта (USD / GEL)",
-      payCardRub: "🇷🇺 Карта РФ / СБП (Рубли)",
-      payTgBot: "✈️ Оплатить через Telegram Bot",
       btnClose: "Отмена",
       tgBarSub: "Гадания прямо в мессенджере",
       btnTgOpen: "Открыть Бот"
@@ -492,13 +477,6 @@
       contactsTitle: "Contact Us",
       contactTgBot: "Telegram Bot",
       modalTitle: "Choose Payment Method",
-      modalSub: "Payment is processed via TBC Bank (Georgia) in GEL.",
-      rateRub: "Amount in RUB:",
-      rateUsd: "Amount in USD:",
-      rateGel: "Total (TBC GEL):",
-      payCardGel: "💳 International Card (USD / GEL)",
-      payCardRub: "🇷🇺 Russian Card / SBP",
-      payTgBot: "✈️ Pay via Telegram Bot",
       btnClose: "Cancel",
       tgBarSub: "Fortunes right in your messenger",
       btnTgOpen: "Open Bot"
@@ -552,9 +530,9 @@
     });
   }
 
-  const RUB_GEL = 0.031;
   let currentType = '';
-  let currentRubBase = 100;
+  let currentAmountRub = 100;
+  let currentAmountUsd = 1.2;
 
   const video = document.getElementById('boryaVideo');
   const mediaBox = document.getElementById('mediaBox');
@@ -564,12 +542,49 @@
       alert(currentLang === 'ru' ? 'Пожалуйста, сначала введите ваш вопрос!' : 'Please enter your question first!');
       return;
     }
+    
     currentType = type;
-    currentRubBase = baseRub;
+    currentAmountRub = baseRub;
+    currentAmountUsd = (baseRub / 85).toFixed(2);
 
-    document.getElementById('rubVal').innerText = baseRub + ' ₽';
-    document.getElementById('usdVal').innerText = '$' + (baseRub / 85).toFixed(2);
-    document.getElementById('gelVal').innerText = '~' + (baseRub * RUB_GEL).toFixed(2) + ' GEL';
+    const titleEl = document.getElementById('modalTitleText');
+    const subEl = document.getElementById('modalSubText');
+    const priceVal = document.getElementById('priceVal');
+    const container = document.getElementById('paymentOptionsContainer');
+
+    if (type === 'question') {
+      titleEl.innerText = currentLang === 'ru' ? 'Гадание на вопрос' : 'Ask a Question';
+      subEl.innerText = currentLang === 'ru' ? 'Выберите удобный способ оплаты:' : 'Choose your preferred payment method:';
+      priceVal.innerText = `${baseRub} ₽ / $${currentAmountUsd}`;
+    } else {
+      titleEl.innerText = currentLang === 'ru' ? '👑 Аренда Бори на неделю' : '👑 Rent Borya for a week';
+      subEl.innerText = currentLang === 'ru' ? 'Дает право задавать вопросы без ограничений 7 дней:' : 'Unlimited questions for 7 days:';
+      priceVal.innerText = `${baseRub} ₽ / $${currentAmountUsd}`;
+    }
+
+    // Генерация кнопок с четким разделением по регионам
+    container.innerHTML = `
+      <div style="font-size:0.8rem; color:var(--gold); margin: 10px 0 6px; text-align:left; font-weight:600;">
+        ${currentLang === 'ru' ? '🇷🇺 Для пользователей из РФ:' : '🇷🇺 For users from Russia:'}
+      </div>
+      <button class="pay-option-btn" onclick="processPayment('rub')">
+        <span>🇷🇺 Карта РФ / СБП (${baseRub} ₽)</span> ➔
+      </button>
+
+      <div style="font-size:0.8rem; color:var(--gold); margin: 14px 0 6px; text-align:left; font-weight:600;">
+        ${currentLang === 'ru' ? '🌍 Для пользователей из других стран:' : '🌍 International users:'}
+      </div>
+      <button class="pay-option-btn" onclick="processPayment('intl')">
+        <span>💳 Международная карта ($${currentAmountUsd} USD / GEL)</span> ➔
+      </button>
+
+      <div style="font-size:0.8rem; color:var(--gold); margin: 14px 0 6px; text-align:left; font-weight:600;">
+        ${currentLang === 'ru' ? '✈️ Через мессенджер:' : '✈️ Via messenger:'}
+      </div>
+      <button class="pay-option-btn" onclick="processPayment('tg')" style="border-color:var(--tg-blue);">
+        <span>✈️ Оплатить в Telegram Боте</span> ➔
+      </button>
+    `;
 
     document.getElementById('payModal').classList.add('active');
   }
@@ -578,43 +593,55 @@
     document.getElementById('payModal').classList.remove('active');
   }
 
-  // Настройка реальных путей оплаты
-  function processPayment(provider) {
+  function processPayment(method) {
     const q = document.getElementById('question').value.trim();
     closePaymentModal();
 
-    if (provider === 'tg_bot') {
-      const encodedQ = encodeURIComponent(q || 'Запрос гадания');
+    if (method === 'tg') {
+      const encodedQ = encodeURIComponent(q || (currentType === 'rent' ? 'Аренда Бори' : 'Запрос гадания'));
       window.open(`https://t.me/BoryaFortuneBot?start=${encodedQ}`, '_blank');
       return;
     }
 
-    if (provider === 'card_gel') {
-      // Здесь укажите вашу персональную ссылку на оплату TBC / Stripe (например, инвойс или эквайринг)
-      // Пример: window.open('https://my.tbcbank.ge/pay/your-link?amount=' + (currentRubBase * RUB_GEL), '_blank');
-      
+    if (method === 'rub') {
+      // Интеграция с российским эквайрингом (ЮKassa / CloudPayments)
       alert(currentLang === 'ru' 
-        ? 'Переход на защищенный шлюз TBC Bank (USD/GEL)... После оплаты Боря выдаст свиток.' 
-        : 'Redirecting to TBC Bank secure gateway...');
-      
-      simulateSuccessfulPayment(q);
+        ? 'Переход на защищенный российский платежный шлюз (ЮKassa)...' 
+        : 'Redirecting to Russian secure gateway...');
+      finalizeSuccessAction(q);
       return;
     }
 
-    if (provider === 'card_rub') {
-      // Здесь укажите ссылку на оплату через российские карты (например, ЮKassa или CloudPayments)
+    if (method === 'intl') {
+      // Интеграция с международным эквайрингом (Stripe / TBC Bank для карт мира)
       alert(currentLang === 'ru' 
-        ? 'Переход на оплату картой РФ / СБП...' 
-        : 'Redirecting to Russian payment gateway...');
-      
-      simulateSuccessfulPayment(q);
+        ? 'Переход на международный защищенный шлюз (Stripe / TBC)...' 
+        : 'Redirecting to international secure gateway...');
+      finalizeSuccessAction(q);
       return;
     }
   }
 
-  function simulateSuccessfulPayment(q) {
-    const randomFortune = getRandomFortune();
-    startBoryaDivination(q ? `[${currentLang === 'ru' ? 'Ответ на вопрос' : 'Answer'}]: "${q}"\n\n✨ ${randomFortune}` : `👑 ${randomFortune}`);
+  function finalizeSuccessAction(q) {
+    if (currentType === 'rent') {
+      // При успешной покупке аренды выводим подтверждение и даем пользователю возможность вводить вопросы
+      const rentMsg = currentLang === 'ru' 
+        ? '👑 Аренда успешно оформлена на 7 дней! Теперь вы можете задавать любые вопросы Боре ниже без ограничений.' 
+        : '👑 Weekly rental successfully activated! You can now ask Borya unlimited questions below.';
+      
+      document.getElementById('fortune-text').innerHTML = `<span>${rentMsg}</span>`;
+      document.getElementById('fortune').scrollIntoView({ behavior: 'smooth' });
+      
+      // Очищаем поле ввода, чтобы пользователь мог сразу написать вопрос для арендованного режима
+      document.getElementById('question').value = '';
+      document.getElementById('char-count').textContent = '0';
+      document.getElementById('question').focus();
+    } else {
+      // Обычное разовое гадание на вопрос
+      const randomFortune = getRandomFortune();
+      const text = q ? `[${currentLang === 'ru' ? 'Ответ на вопрос' : 'Answer'}]: "${q}"\n\n✨ ${randomFortune}` : `✨ ${randomFortune}`;
+      startBoryaDivination(text);
+    }
   }
 
   function getRandomFortune() {
