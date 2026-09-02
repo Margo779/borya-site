@@ -299,7 +299,6 @@
         <div class="char-count"><span id="char-count">0</span> / 200</div>
       </div>
       
-      <!-- Кнопка «ОК / Получить ответ», чтобы отправить написанный вопрос -->
       <button class="btn-ask-submit" onclick="submitUserQuestion()" data-i18n="btnAskSubmit">✨ Задать вопрос Боре (Получить ответ)</button>
 
       <div class="pay-cta">
@@ -494,6 +493,7 @@
     }
   };
 
+  // Расширенная база из 100 уникальных предсказаний (RU и EN)
   const fortunesData = {
     ru: [
       "Сегодня идеальный день, чтобы сделать первый шаг к вашей давней мечте!",
@@ -505,7 +505,96 @@
       "Удача любит смелых: сделайте шаг вперед, даже если немного страшно!",
       "Ваш труд скоро принесет плоды, о которых вы даже не мечтали.",
       "Отпустите сомнения: вы на верном пути!",
-      "Финансовый поток готовит для вас приятное прибавление."
+      "Финансовый поток готовит для вас приятное прибавление.",
+      "Звезды советуют уделить время себе и отдохнуть от суеты.",
+      "Старый друг неожиданно напомнит о себе и принесет хорошие новости.",
+      "Ваша искренность привлечет в жизнь нужного человека.",
+      "Небольшое путешествие или поездка подарят массу ярких эмоций.",
+      "Вскоре разрешится давний вопрос, который не давал вам покоя.",
+      "Прислушайтесь к совету старших — в нем есть зерно мудрости.",
+      "Ваш творческий потенциал бьет ключом, смело беритесь за новые проекты.",
+      "Ожидайте приятных сюрпризов в сфере личных отношений.",
+      "Сегодня день гармонии: все дела будут спориться сами собой.",
+      "Улыбка незнакомца на улице зарядит вас позитивом на всю неделю.",
+      "Избегайте спешки — в тишине рождаются лучшие решения.",
+      "Ваша доброта вернется к вам сторицей уже в ближайшие дни.",
+      "Успех ждет тех, кто не боится экспериментировать.",
+      "Время отпустить прошлое и освободить место для нового счастья.",
+      "Ваша харизма сегодня на высоте, пользуйтесь этим!",
+      "Скоро вам предстоит сделать важный, но очень радостный выбор.",
+      "Позвольте себе немного расслабиться и побаловать себя.",
+      "Вам удастся найти выход из сложной финансовой ситуации.",
+      "Случайная встреча может круто изменить вашу жизнь к лучшему.",
+      "Будьте открыты для новых знаний — они пригодятся очень скоро.",
+      "Ваша интуиция подскажет верный ответ в запутанной ситуации.",
+      "Ожидайте прилива энергии и сил для реализации задуманного.",
+      "Прекрасный день для крупных покупок и инвестиций в себя.",
+      "Ваша уверенность в себе впечатлит окружающих.",
+      "Кто-то тайком восхищается вашими успехами и целеустремленностью.",
+      "Смело говорите «нет» тому, что забирает вашу энергию.",
+      "Вас ждет приятный вечер в кругу близких и любимых людей.",
+      "Удачный момент для старта долгосрочных образовательных проектов.",
+      "Ваша улыбка способна растопить любой лед — чаще улыбайтесь!",
+      "Отрешение от суеты поможет найти ответ на главный вопрос.",
+      "Вас ждет финансовый прорыв, если проявите каплю терпения.",
+      "Любые преграды сегодня окажутся временными и легко преодолимыми.",
+      "Приготовьтесь принимать заслуженные комплименты и похвалу.",
+      "Ваше внутреннее чутье убережет от ненужных трат и ошибок.",
+      "Наступает период душевного спокойствия и глубокого баланса.",
+      "Ваша идея окажется невероятно прибыльной и перспективной.",
+      "Не бойтесь проявлять инициативу — вас обязательно поддержат.",
+      "Впереди череда радостных событий и приятных хлопот.",
+      "Ваша забота о близких вернется к вам вдвойне.",
+      "День благоприятен для наведения порядка в делах и мыслях.",
+      "Вы на пороге удивительного открытия, которое изменит ваш взгляд на мир.",
+      "Вам удастся легко разрешить давний конфликт или недопонимание.",
+      "Ждите знака свыше — вы поймете его без труда.",
+      "Ваша энергия привлекает к вам единомышленников.",
+      "Подарите себе час тишины, и вы найдете решение всех проблем.",
+      "Удачный день для заключения важных сделок и договоров.",
+      "Ваше обаяние откроет перед вами любые двери.",
+      "Скоро в вашей жизни появится человек, который станет верным другом.",
+      "Позвольте себе помечтать по-крупному — мысли материальны!",
+      "Вас ждет приятное известие издалека.",
+      "Не цепляйтесь за старое: впереди вас ждет нечто гораздо лучшее.",
+      "Ваши таланты будут наконец-то оценены по достоинству.",
+      "Уделите внимание здоровью — прогулка на свежем воздухе творит чудеса.",
+      "Ваш оптимизм станет магнитом для хороших новостей.",
+      "Сегодняшний вечер принесет долгожданное умиротворение.",
+      "Кто-то очень ждет вашего звонка или сообщения.",
+      "Вас ждет неожиданный, но очень приятный подарок судьбы.",
+      "Доверьтесь течению жизни — она выведет вас к купецкому счастью.",
+      "Успех придет откуда вы его совсем не ждали.",
+      "Ваше упорство и труд сломают любые преграды.",
+      "Отличный день для начала занятий спортом или новой диеты.",
+      "Ваши слова сегодня будут иметь особую силу убеждения.",
+      "Ожидайте хороших новостей, связанных с вашим жильем или бытом.",
+      "Ваша интуиция работает на максимум — прислушайтесь к ней.",
+      "Прекрасный момент для того, чтобы завязать новое знакомство.",
+      "Вас ждет признание ваших профессиональных заслуг.",
+      "Не бойтесь показаться смешными — искренность сейчас в цене.",
+      "Ваши доходы начнут расти быстрее, чем вы планировали.",
+      "Сегодня удача будет сопровождать вас буквально во всем.",
+      "Ваш внутренний свет привлекает к вам добрых людей.",
+      "Жизнь готовит для вас приятный поворот сюжета.",
+      "Поделитесь своим теплом с окружающим миром, и оно вернется.",
+      "Ваша целеустремленность вызывает искреннее уважение.",
+      "День идеален для планирования отпуска или поездки мечты.",
+      "Вас ждет приятный сюрприз от второй половинки или близких.",
+      "Ваш ум и сообразительность помогут выйти сухим из любой воды.",
+      "Отпустите контроль и позвольте событиям развиваться самим.",
+      "Ваша доброжелательность творит настоящие чудеса.",
+      "Скоро исполнится одно ваше маленькое заветное желание.",
+      "Вас ждет волна вдохновения и творческого подъема.",
+      "Не сомневайтесь в своих силах — вы можете свернуть горы!",
+      "Удача улыбнется тем, кто умеет ждать и вовремя действовать.",
+      "Ваш дом наполнится уютом, теплом и детским смехом.",
+      "Прекрасный день для прощения старых обид и начала с чистого листа.",
+      "Ваши планы осуществятся наилучшим для вас образом.",
+      "Ожидайте прибыльного предложения, от которого трудно отказаться.",
+      "Ваша мудрость поможет разрешить чужой спор.",
+      "Сегодняшний день подарит вам незабываемые эмоции и улыбки.",
+      "Вы заслужили этот отдых — наслаждайтесь моментом в полной мере."
     ],
     en: [
       "Today is the perfect day to take the first step towards your dream!",
@@ -517,7 +606,96 @@
       "Fortune favors the bold: step forward even if it's a bit scary!",
       "Your hard work will soon bear fruits beyond your expectations.",
       "Let go of doubts: you are on the right path!",
-      "A financial flow is preparing a pleasant boost for you."
+      "A financial flow is preparing a pleasant boost for you.",
+      "The stars advise taking time for yourself and resting from the bustle.",
+      "An old friend will unexpectedly remind of themselves with good news.",
+      "Your sincerity will attract the right person into your life.",
+      "A short trip or journey will bring many bright emotions.",
+      "An old issue that bothered you will soon be resolved.",
+      "Listen to the advice of elders — it holds wisdom.",
+      "Your creative potential is peaking, boldly take on new projects.",
+      "Expect pleasant surprises in your personal relationships.",
+      "Today is a day of harmony: all tasks will flow effortlessly.",
+      "A stranger's smile on the street will energize you for the whole week.",
+      "Avoid haste — the best decisions are born in silence.",
+      "Your kindness will return to you tenfold in the coming days.",
+      "Success awaits those who are not afraid to experiment.",
+      "Time to let go of the past and make room for new happiness.",
+      "Your charisma is at its peak today, make the most of it!",
+      "An important yet very joyful choice lies ahead of you.",
+      "Allow yourself to relax and treat yourself a little.",
+      "You will find a way out of a difficult financial situation.",
+      "A chance meeting could dramatically change your life for the better.",
+      "Be open to new knowledge — it will come in handy very soon.",
+      "Your intuition will prompt the right answer in a confusing situation.",
+      "Expect a surge of energy and strength to realize your plans.",
+      "A wonderful day for major purchases and investing in yourself.",
+      "Your self-confidence will impress everyone around you.",
+      "Someone secretly admires your success and determination.",
+      "Boldly say 'no' to anything that drains your energy.",
+      "A pleasant evening among close people and loved ones awaits you.",
+      "A great moment to start long-term educational projects.",
+      "Your smile can melt any ice — smile more often!",
+      "Stepping away from the bustle will help answer your main question.",
+      "A financial breakthrough awaits if you show a bit of patience.",
+      "Any obstacles today will turn out to be temporary and easily overcome.",
+      "Get ready to accept well-deserved compliments and praise.",
+      "Your inner gut feeling will protect you from unnecessary expenses and mistakes.",
+      "A period of peace of mind and deep balance is beginning.",
+      "Your idea will turn out to be incredibly profitable and promising.",
+      "Don't be afraid to take initiative — you will definitely be supported.",
+      "A streak of joyful events and pleasant chores lies ahead.",
+      "Your care for loved ones will return to you twofold.",
+      "The day is favorable for putting things and thoughts in order.",
+      "You are on the threshold of an amazing discovery changing your worldview.",
+      "You will easily resolve an old conflict or misunderstanding.",
+      "Wait for a sign from above — you will understand it easily.",
+      "Your energy attracts like-minded people to you.",
+      "Grant yourself an hour of silence, and you'll find solutions to all problems.",
+      "A great day for making important deals and agreements.",
+      "Your charm will open any door before you.",
+      "Soon a person will appear in your life who will become a loyal friend.",
+      "Allow yourself to dream big — thoughts are material!",
+      "A pleasant message from afar awaits you.",
+      "Don't cling to the old: something much better awaits ahead.",
+      "Your talents will finally be appreciated as they deserve.",
+      "Pay attention to your health — a walk in fresh air works wonders.",
+      "Your optimism will become a magnet for good news.",
+      "Today's evening will bring long-awaited peace.",
+      "Someone is eagerly waiting for your call or message.",
+      "An unexpected but very pleasant gift of fate awaits you.",
+      "Trust the flow of life — it will lead you to happiness.",
+      "Success will come from where you least expect it.",
+      "Your perseverance and hard work will break through any barriers.",
+      "A great day to start working out or a new diet.",
+      "Your words today will carry special persuasive power.",
+      "Expect good news related to your home or living situation.",
+      "Your intuition is working at maximum capacity — listen to it.",
+      "A wonderful moment to start a new acquaintance.",
+      "Recognition of your professional merits awaits you.",
+      "Don't be afraid to look silly — sincerity is valued now.",
+      "Your income will start growing faster than you planned.",
+      "Today luck will accompany you in literally everything.",
+      "Your inner light attracts kind people to you.",
+      "Life is preparing a pleasant plot twist for you.",
+      "Share your warmth with the world, and it will return.",
+      "Your determination commands sincere respect.",
+      "The day is ideal for planning a vacation or dream trip.",
+      "A pleasant surprise from your significant other or family awaits you.",
+      "Your wit and quick thinking will help you out of any trouble.",
+      "Let go of control and let events unfold naturally.",
+      "Your goodwill works absolute miracles.",
+      "One of your small cherished wishes will soon come true.",
+      "A wave of inspiration and a creative boost await you.",
+      "Do not doubt your strength — you can move mountains!",
+      "Luck will smile upon those who know how to wait and act timely.",
+      "Your home will fill with coziness, warmth, and laughter.",
+      "A great day to forgive old grievances and start with a clean slate.",
+      "Your plans will come true in the best possible way.",
+      "Expect a lucrative offer that's hard to refuse.",
+      "Your wisdom will help resolve someone else's dispute.",
+      "Today will give you unforgettable emotions and smiles.",
+      "You've earned this rest — enjoy the moment to the fullest."
     ]
   };
 
@@ -557,12 +735,10 @@
     }
 
     if (isRented) {
-      // Если оформлена аренда — отвечаем бесплатно и безлимитно
       const randomFortune = getRandomFortune();
       const text = `👑 [${currentLang === 'ru' ? 'Арендный ответ Бори' : 'Borya Rental Answer'}]: "${q}"\n\n✨ ${randomFortune}`;
       startBoryaDivination(text);
     } else {
-      // Если аренды нет — предлагаем оплатить разовый вопрос
       openPaymentModal('question', 100);
     }
   }
@@ -593,7 +769,6 @@
       priceVal.innerText = `${baseRub} ₽ / $${currentAmountUsd}`;
     }
 
-    // Реальные ссылки/действия для перенаправления на шлюзы платежей
     container.innerHTML = `
       <div style="font-size:0.8rem; color:var(--gold); margin: 10px 0 6px; text-align:left; font-weight:600;">
         ${currentLang === 'ru' ? '🇷🇺 Для пользователей из РФ (ЮKassa / CloudPayments):' : '🇷🇺 For users from Russia:'}
@@ -624,7 +799,6 @@
     document.getElementById('payModal').classList.remove('active');
   }
 
-  // Функция реального перехода на шлюзы
   function redirectToGateway(method) {
     const q = document.getElementById('question').value.trim();
     closePaymentModal();
@@ -636,31 +810,22 @@
     }
 
     if (method === 'rub') {
-      // Пример реального редиректа на российский шлюз (замените URL на вашу ссылку ЮKassa / платежной страницы)
-      // window.location.href = `https://yookassa.ru/my/i/YOUR_SHOP_ID?amount=${currentAmountRub}`;
-      
-      // Демо-эмуляция успешной оплаты для теста:
       alert(currentLang === 'ru' ? 'Перенаправление на российский платежный шлюз...' : 'Redirecting to Russian payment gateway...');
       simulateSuccessfulPayment();
       return;
     }
 
     if (method === 'intl') {
-      // Пример реального редиректа на международный шлюз (Stripe / TBC E-commerce)
-      // window.location.href = `https://buy.stripe.com/YOUR_LINK?client_reference_id=${currentType}`;
-      
-      // Демо-эмуляция успешной оплаты для теста:
       alert(currentLang === 'ru' ? 'Перенаправление на международный шлюз (Stripe/TBC)...' : 'Redirecting to international gateway...');
       simulateSuccessfulPayment();
       return;
     }
   }
 
-  // Симуляция возврата с успешной оплаты
   function simulateSuccessfulPayment() {
     const q = document.getElementById('question').value.trim();
     if (currentType === 'rent') {
-      isRented = true; // Активируем режим аренды
+      isRented = true;
       const rentMsg = currentLang === 'ru' 
         ? '👑 Аренда успешно оформлена на 7 дней! Теперь вы можете писать любые вопросы в поле выше и нажимать «Задать вопрос Боре» без ограничений.' 
         : '👑 Weekly rental successfully activated! You can now ask Borya unlimited questions above.';
@@ -697,7 +862,25 @@
     document.getElementById('fortune').scrollIntoView({ behavior: 'smooth' });
   }
 
+  // Обработка кнопки бесплатного свитка с ограничением 1 раз в сутки (через localStorage)
   document.getElementById('free-btn').addEventListener('click', () => {
+    const todayStr = new Date().toDateString(); // Например, "Wed Sep 02 2026"
+    const lastFreeDate = localStorage.getItem('borya_last_free_date');
+
+    if (lastFreeDate === todayStr) {
+      // Пользователь уже получал бесплатный свиток сегодня
+      const limitMsg = currentLang === 'ru' 
+        ? '🎁 Вы уже получили свой бесплатный свиток сегодня!\nПриходите завтра за новым предсказанием от Бори или воспользуйтесь платным гаданием на вопрос. 🦜✨' 
+        : '🎁 You have already received your free scroll today!\nCome back tomorrow for a new prediction from Borya or use paid divination. 🦜✨';
+      
+      showScrollResult(limitMsg);
+      return;
+    }
+
+    // Сохраняем сегодняшнюю дату в память браузера
+    localStorage.setItem('borya_last_free_date', todayStr);
+
+    // Выдаем бесплатный свиток
     const randomFortune = getRandomFortune();
     startBoryaDivination(`🎁 [${currentLang === 'ru' ? 'Свиток Дня' : 'Daily Scroll'}]\n\n${randomFortune}`);
   });
