@@ -99,7 +99,7 @@
   .question-box{
     background:rgba(10,6,16,0.7);
     border:1px solid rgba(234,188,91,0.28);
-    border-radius:16px; padding:14px 16px; margin-bottom:18px;
+    border-radius:16px; padding:14px 16px; margin-bottom:12px;
   }
   textarea#question{
     width:100%; min-height:80px; resize:none;
@@ -107,6 +107,13 @@
     color:var(--cream); font-family:var(--font-body); font-size:1rem; font-style:italic;
   }
   .char-count{text-align:right; font-family:var(--font-ui); font-size:.75rem; color:rgba(184,169,196,0.5);}
+
+  .btn-ask-submit {
+    width: 100%; background: rgba(234,188,91,0.15); border: 1px solid var(--gold);
+    color: var(--gold); font-family: var(--font-ui); font-weight: 600; font-size: 0.9rem;
+    padding: 10px; border-radius: 12px; cursor: pointer; margin-bottom: 16px; transition: background 0.2s;
+  }
+  .btn-ask-submit:hover { background: rgba(234,188,91,0.25); }
 
   .pay-cta{display:flex; flex-direction:column; gap:10px;}
   .btn-pay{
@@ -291,6 +298,9 @@
         <textarea id="question" maxlength="200" placeholder="Напишите ваш вопрос здесь..." data-i18n-ph="inputPlaceholder"></textarea>
         <div class="char-count"><span id="char-count">0</span> / 200</div>
       </div>
+      
+      <!-- Кнопка «ОК / Получить ответ», чтобы отправить написанный вопрос -->
+      <button class="btn-ask-submit" onclick="submitUserQuestion()" data-i18n="btnAskSubmit">✨ Задать вопрос Боре (Получить ответ)</button>
 
       <div class="pay-cta">
         <button class="btn-pay" onclick="openPaymentModal('question', 100)" data-i18n="btnPayQuestion">Гадание на вопрос — 100 ₽ / $1.2 ✨</button>
@@ -304,7 +314,7 @@
     <div class="scroll-wrap">
       <h3 data-i18n="fortuneTitle">Предсказание Бори</h3>
       <div class="scroll-paper" id="fortune-text">
-        <span data-i18n="fortuneDefault">Нажмите кнопку гадания, чтобы Боря вытащил ответ...</span>
+        <span data-i18n="fortuneDefault">Напишите вопрос и нажмите кнопку или выберите вариант гадания...</span>
       </div>
     </div>
   </section>
@@ -329,7 +339,6 @@
       </div>
     </div>
 
-    <!-- Интерактивная форма добавления отзыва -->
     <div class="add-review-box">
       <h3 data-i18n="addReviewTitle">Оставить свой отзыв</h3>
       <form id="reviewForm">
@@ -382,7 +391,7 @@
   </section>
 </main>
 
-<!-- Модальное окно выбора оплаты с гео-направлением -->
+<!-- Модальное окно выбора оплаты с реальными ссылками перенаправления -->
 <div class="modal-overlay" id="payModal">
   <div class="modal-card">
     <h3 id="modalTitleText" data-i18n="modalTitle">Выберите способ оплаты</h3>
@@ -392,9 +401,8 @@
       <div><span id="priceLabel">Сумма к оплате:</span> <b id="priceVal">100 ₽</b></div>
     </div>
 
-    <!-- Кнопки оплаты с разделением на РФ и Международные -->
     <div id="paymentOptionsContainer">
-      <!-- Динамически заполнится скриптом в зависимости от выбора пользователя -->
+      <!-- Динамически заполняется скриптом -->
     </div>
 
     <button class="btn-close-modal" onclick="closePaymentModal()" data-i18n="btnClose">Отмена</button>
@@ -415,6 +423,7 @@
 
 <script>
   let currentLang = 'ru';
+  let isRented = false; // Статус аренды Бори на неделю
 
   const translations = {
     ru: {
@@ -426,11 +435,12 @@
       heroTitle: "Боря гадает",
       heroSub: "Задайте вопрос, и волнистый предсказатель вытащит ваш индивидуальный свиток.",
       inputPlaceholder: "Напишите ваш вопрос здесь...",
+      btnAskSubmit: "✨ Задать вопрос Боре (Получить ответ)",
       btnPayQuestion: "Гадание на вопрос — 100 ₽ / $1.2 ✨",
       btnPayRent: "Аренда Бори на неделю — 500 ₽ / $6 👑",
       btnFree: "Бесплатный свиток дня 🎁",
       fortuneTitle: "Предсказание Бори",
-      fortuneDefault: "Нажмите кнопку гадания, чтобы Боря вытащил ответ...",
+      fortuneDefault: "Напишите вопрос и нажмите кнопку или выберите вариант гадания...",
       reviewsTitle: "Отзывы счастливчиков",
       addReviewTitle: "Оставить свой отзыв",
       lblReviewName: "Ваше имя:",
@@ -458,11 +468,12 @@
       heroTitle: "Borya Divines",
       heroSub: "Ask your question, and the wise budgie will draw your unique scroll.",
       inputPlaceholder: "Type your personal question here...",
+      btnAskSubmit: "✨ Ask Borya (Get Answer)",
       btnPayQuestion: "Ask a Question — 100 ₽ / $1.2 ✨",
       btnPayRent: "Rent Borya for a week — 500 ₽ / $6 👑",
       btnFree: "Free Daily Scroll 🎁",
       fortuneTitle: "Borya's Prediction",
-      fortuneDefault: "Click a button above to let Borya pick your scroll...",
+      fortuneDefault: "Type a question and click the button or choose divination option...",
       reviewsTitle: "Happy Clients Reviews",
       addReviewTitle: "Leave Your Review",
       lblReviewName: "Your Name:",
@@ -537,8 +548,28 @@
   const video = document.getElementById('boryaVideo');
   const mediaBox = document.getElementById('mediaBox');
 
+  // Логика кнопки «Получить ответ» по введенному вопросу
+  function submitUserQuestion() {
+    const q = document.getElementById('question').value.trim();
+    if (!q) {
+      alert(currentLang === 'ru' ? 'Пожалуйста, введите ваш вопрос в поле выше!' : 'Please enter your question in the field above!');
+      return;
+    }
+
+    if (isRented) {
+      // Если оформлена аренда — отвечаем бесплатно и безлимитно
+      const randomFortune = getRandomFortune();
+      const text = `👑 [${currentLang === 'ru' ? 'Арендный ответ Бори' : 'Borya Rental Answer'}]: "${q}"\n\n✨ ${randomFortune}`;
+      startBoryaDivination(text);
+    } else {
+      // Если аренды нет — предлагаем оплатить разовый вопрос
+      openPaymentModal('question', 100);
+    }
+  }
+
   function openPaymentModal(type, baseRub) {
-    if (type === 'question' && !document.getElementById('question').value.trim()) {
+    const q = document.getElementById('question').value.trim();
+    if (type === 'question' && !q) {
       alert(currentLang === 'ru' ? 'Пожалуйста, сначала введите ваш вопрос!' : 'Please enter your question first!');
       return;
     }
@@ -562,26 +593,26 @@
       priceVal.innerText = `${baseRub} ₽ / $${currentAmountUsd}`;
     }
 
-    // Генерация кнопок с четким разделением по регионам
+    // Реальные ссылки/действия для перенаправления на шлюзы платежей
     container.innerHTML = `
       <div style="font-size:0.8rem; color:var(--gold); margin: 10px 0 6px; text-align:left; font-weight:600;">
-        ${currentLang === 'ru' ? '🇷🇺 Для пользователей из РФ:' : '🇷🇺 For users from Russia:'}
+        ${currentLang === 'ru' ? '🇷🇺 Для пользователей из РФ (ЮKassa / CloudPayments):' : '🇷🇺 For users from Russia:'}
       </div>
-      <button class="pay-option-btn" onclick="processPayment('rub')">
+      <button class="pay-option-btn" onclick="redirectToGateway('rub')">
         <span>🇷🇺 Карта РФ / СБП (${baseRub} ₽)</span> ➔
       </button>
 
       <div style="font-size:0.8rem; color:var(--gold); margin: 14px 0 6px; text-align:left; font-weight:600;">
-        ${currentLang === 'ru' ? '🌍 Для пользователей из других стран:' : '🌍 International users:'}
+        ${currentLang === 'ru' ? '🌍 Для пользователей из других стран (Stripe / TBC Bank):' : '🌍 International users:'}
       </div>
-      <button class="pay-option-btn" onclick="processPayment('intl')">
-        <span>💳 Международная карта ($${currentAmountUsd} USD / GEL)</span> ➔
+      <button class="pay-option-btn" onclick="redirectToGateway('intl')">
+        <span>💳 Международная карта ($${currentAmountUsd} USD)</span> ➔
       </button>
 
       <div style="font-size:0.8rem; color:var(--gold); margin: 14px 0 6px; text-align:left; font-weight:600;">
         ${currentLang === 'ru' ? '✈️ Через мессенджер:' : '✈️ Via messenger:'}
       </div>
-      <button class="pay-option-btn" onclick="processPayment('tg')" style="border-color:var(--tg-blue);">
+      <button class="pay-option-btn" onclick="redirectToGateway('tg')" style="border-color:var(--tg-blue);">
         <span>✈️ Оплатить в Telegram Боте</span> ➔
       </button>
     `;
@@ -593,7 +624,8 @@
     document.getElementById('payModal').classList.remove('active');
   }
 
-  function processPayment(method) {
+  // Функция реального перехода на шлюзы
+  function redirectToGateway(method) {
     const q = document.getElementById('question').value.trim();
     closePaymentModal();
 
@@ -604,40 +636,40 @@
     }
 
     if (method === 'rub') {
-      // Интеграция с российским эквайрингом (ЮKassa / CloudPayments)
-      alert(currentLang === 'ru' 
-        ? 'Переход на защищенный российский платежный шлюз (ЮKassa)...' 
-        : 'Redirecting to Russian secure gateway...');
-      finalizeSuccessAction(q);
+      // Пример реального редиректа на российский шлюз (замените URL на вашу ссылку ЮKassa / платежной страницы)
+      // window.location.href = `https://yookassa.ru/my/i/YOUR_SHOP_ID?amount=${currentAmountRub}`;
+      
+      // Демо-эмуляция успешной оплаты для теста:
+      alert(currentLang === 'ru' ? 'Перенаправление на российский платежный шлюз...' : 'Redirecting to Russian payment gateway...');
+      simulateSuccessfulPayment();
       return;
     }
 
     if (method === 'intl') {
-      // Интеграция с международным эквайрингом (Stripe / TBC Bank для карт мира)
-      alert(currentLang === 'ru' 
-        ? 'Переход на международный защищенный шлюз (Stripe / TBC)...' 
-        : 'Redirecting to international secure gateway...');
-      finalizeSuccessAction(q);
+      // Пример реального редиректа на международный шлюз (Stripe / TBC E-commerce)
+      // window.location.href = `https://buy.stripe.com/YOUR_LINK?client_reference_id=${currentType}`;
+      
+      // Демо-эмуляция успешной оплаты для теста:
+      alert(currentLang === 'ru' ? 'Перенаправление на международный шлюз (Stripe/TBC)...' : 'Redirecting to international gateway...');
+      simulateSuccessfulPayment();
       return;
     }
   }
 
-  function finalizeSuccessAction(q) {
+  // Симуляция возврата с успешной оплаты
+  function simulateSuccessfulPayment() {
+    const q = document.getElementById('question').value.trim();
     if (currentType === 'rent') {
-      // При успешной покупке аренды выводим подтверждение и даем пользователю возможность вводить вопросы
+      isRented = true; // Активируем режим аренды
       const rentMsg = currentLang === 'ru' 
-        ? '👑 Аренда успешно оформлена на 7 дней! Теперь вы можете задавать любые вопросы Боре ниже без ограничений.' 
-        : '👑 Weekly rental successfully activated! You can now ask Borya unlimited questions below.';
+        ? '👑 Аренда успешно оформлена на 7 дней! Теперь вы можете писать любые вопросы в поле выше и нажимать «Задать вопрос Боре» без ограничений.' 
+        : '👑 Weekly rental successfully activated! You can now ask Borya unlimited questions above.';
       
       document.getElementById('fortune-text').innerHTML = `<span>${rentMsg}</span>`;
       document.getElementById('fortune').scrollIntoView({ behavior: 'smooth' });
-      
-      // Очищаем поле ввода, чтобы пользователь мог сразу написать вопрос для арендованного режима
       document.getElementById('question').value = '';
       document.getElementById('char-count').textContent = '0';
-      document.getElementById('question').focus();
     } else {
-      // Обычное разовое гадание на вопрос
       const randomFortune = getRandomFortune();
       const text = q ? `[${currentLang === 'ru' ? 'Ответ на вопрос' : 'Answer'}]: "${q}"\n\n✨ ${randomFortune}` : `✨ ${randomFortune}`;
       startBoryaDivination(text);
