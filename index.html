@@ -769,20 +769,14 @@
       priceVal.innerText = `${baseRub} ₽ / $${currentAmountUsd}`;
     }
 
-    container.innerHTML = `
-      <div style="font-size:0.8rem; color:var(--gold); margin: 10px 0 6px; text-align:left; font-weight:600;">
-        ${currentLang === 'ru' ? '🇷🇺 Для пользователей из РФ (ЮKassa / CloudPayments):' : '🇷🇺 For users from Russia:'}
-      </div>
-      <button class="pay-option-btn" onclick="redirectToGateway('rub')">
-        <span>🇷🇺 Карта РФ / СБП (${baseRub} ₽)</span> ➔
-      </button>
-
+   container.innerHTML = `
       <div style="font-size:0.8rem; color:var(--gold); margin: 14px 0 6px; text-align:left; font-weight:600;">
-        ${currentLang === 'ru' ? '🌍 Для пользователей из других стран (Stripe / TBC Bank):' : '🌍 International users:'}
+        ${currentLang === 'ru' ? '✈️ Через мессенджер:' : '✈️ Via messenger:'}
       </div>
-      <button class="pay-option-btn" onclick="redirectToGateway('intl')">
-        <span>💳 Международная карта ($${currentAmountUsd} USD)</span> ➔
+      <button class="pay-option-btn" onclick="redirectToGateway('tg')" style="border-color:var(--tg-blue);">
+        <span>✈️ Оплатить в Telegram Боте</span> ➔
       </button>
+    `;
 
       <div style="font-size:0.8rem; color:var(--gold); margin: 14px 0 6px; text-align:left; font-weight:600;">
         ${currentLang === 'ru' ? '✈️ Через мессенджер:' : '✈️ Via messenger:'}
@@ -804,16 +798,13 @@
     closePaymentModal();
 
     if (method === 'tg') {
-      const encodedQ = encodeURIComponent(q || (currentType === 'rent' ? 'Аренда Бори' : 'Запрос гадания'));
-      window.open(`https://t.me/BoryaFortuneBot?start=${encodedQ}`, '_blank');
+      const param = currentType === 'rent' ? 'rent' : encodeURIComponent(q || 'question');
+      window.open(`https://t.me/BoryaFortuneBot?start=${param}`, '_blank');
       return;
     }
+}
 
-    if (method === 'rub') {
-      alert(currentLang === 'ru' ? 'Перенаправление на российский платежный шлюз...' : 'Redirecting to Russian payment gateway...');
-      simulateSuccessfulPayment();
-      return;
-    }
+   
 
     if (method === 'intl') {
       alert(currentLang === 'ru' ? 'Перенаправление на международный шлюз (Stripe/TBC)...' : 'Redirecting to international gateway...');
